@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>À propos — IRA | Impact Research &amp; Advisory</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Playball&family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   IRA — GLOBAL
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root{
+  --ira-bg:     #f7f4ef;
+  --ira-bg-alt: #ffffff;
+  --ira-ink:    #101c2c;
+  --green:      #2c7a3e;
+  --green-soft: #8fd49e;
+  --night:      #0f1e3d;
+  --ira-muted:  #5b6472;
+  --ira-line:   #e6e1d8;
+  --ira-radius: 14px;
+  --ira-max:    1200px;
+
+  /* Liquid glass tokens */
+  --glass-bg:      linear-gradient(135deg, rgba(255,255,255,.62) 0%, rgba(255,255,255,.28) 60%, rgba(255,255,255,.42) 100%);
+  --glass-bg-dark: linear-gradient(135deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,.06) 60%, rgba(255,255,255,.14) 100%);
+  --glass-border:  rgba(255,255,255,.72);
+  --glass-border-dark: rgba(255,255,255,.28);
+  --glass-blur:    blur(22px) saturate(180%);
+  --glass-shadow:
+    0 10px 40px -12px rgba(15,30,61,.18),
+    0 2px 8px -4px rgba(15,30,61,.10),
+    inset 0 1px 0 rgba(255,255,255,.9),
+    inset 0 -1px 0 rgba(255,255,255,.35);
+}
+
+html { scroll-behavior: smooth; }
+
+body{
+  margin: 0;
+  background:
+    radial-gradient(1200px 800px at 10% 0%, rgba(143,212,158,.10), transparent 60%),
+    radial-gradient(1000px 700px at 90% 100%, rgba(44,122,62,.08), transparent 60%),
+    var(--ira-bg);
+  background-attachment: fixed;
+  color: var(--ira-ink);
+  font-family: "Lexend", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a   { color: inherit; text-decoration: none; }
+
+.playball-regular { font-family: "Playball", cursive; font-weight: 400; font-style: normal; }
+.dm-serif-display-regular { font-family: "DM Serif Display", serif; font-weight: 400; font-style: normal; }
+.dm-serif-display-regular-italic { font-family: "DM Serif Display", serif; font-weight: 400; font-style: italic; }
+
+.lexend-body {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.ira-wrap{
+  width: min(100% - 40px, var(--ira-max));
+  margin-inline: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- ancrages (compensation header fixe) ---------- */
+#notre-histoire,
+#mission,
+#vision,
+#nos-valeurs,
+#ce-qui-nous-distingue,
+#contact{
+  scroll-margin-top: 100px;
+}
+
+/* ---------- boutons (liquid glass) ---------- */
+.ira-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: .55em;
+  padding: 1rem 1.7rem;
+  border-radius: 999px;
+  font-family: "Lexend", sans-serif;
+  font-weight: 500;
+  font-size: .95rem;
+  letter-spacing: .01em;
+  border: 1px solid transparent;
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    transform .3s cubic-bezier(.22,.61,.36,1),
+    background-color .3s ease,
+    color .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease;
+}
+.ira-btn:hover { transform: translateY(-2px); }
+
+/* reflet lumineux qui traverse le bouton */
+.ira-btn::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform .9s cubic-bezier(.22,.61,.36,1);
+  pointer-events: none;
+}
+.ira-btn:hover::after{ transform: translateX(120%); }
+
+.ira-btn--primary{
+  background: linear-gradient(135deg, #34924b 0%, var(--green) 55%, #215e2f 100%);
+  color: #fff;
+  border-color: rgba(255,255,255,.25);
+  box-shadow:
+    0 12px 28px -10px rgba(44,122,62,.55),
+    inset 0 1px 0 rgba(255,255,255,.35),
+    inset 0 -2px 6px rgba(0,0,0,.15);
+}
+.ira-btn--primary:hover{
+  box-shadow:
+    0 18px 36px -10px rgba(44,122,62,.65),
+    inset 0 1px 0 rgba(255,255,255,.45),
+    inset 0 -2px 6px rgba(0,0,0,.18);
+}
+
+.ira-btn--ghost{
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  color: var(--night);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+.ira-btn--ghost:hover{
+  color: #fff;
+  background: linear-gradient(135deg, var(--night), #1b3055);
+  border-color: rgba(255,255,255,.15);
+}
+
+.ira-btn--light{
+  background: var(--glass-bg-dark);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  color: #fff;
+  border-color: var(--glass-border-dark);
+  box-shadow:
+    0 8px 30px -10px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.3);
+}
+.ira-btn--light:hover{ background: #fff; color: var(--green); border-color: #fff; }
+
+/* ---------- titres ---------- */
+.ira-title{
+  font-family: "Lexend", sans-serif;
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  line-height: 1.15;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  letter-spacing: -.02em;
+  color: var(--night);
+}
+
+.ira-lead{
+  font-family: "Lexend", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--ira-muted);
+  max-width: 62ch;
+  margin: 0;
+}
+
+/* ---------- eyebrow (hero uniquement) ---------- */
+.ira-eyebrow{
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  font-family: "Lexend", sans-serif;
+  font-size: .76rem;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin: 0 0 1.2rem;
+}
+.ira-eyebrow::before{
+  content: "";
+  width: 30px;
+  height: 1.5px;
+  background: var(--green);
+  display: block;
+}
+
+/* ---------- trait de section en verre vert ---------- */
+.ira-section-line{
+  display: block;
+  width: 44px;
+  height: 2px;
+  border-radius: 2px;
+  margin: 0 0 1.4rem;
+  background: linear-gradient(90deg, var(--green) 0%, var(--green-soft) 100%);
+  box-shadow: 0 1px 8px rgba(44,122,62,.35);
+}
+
+/* =========================================================
+   EN-TÊTE DE PAGE — panneau de verre
+   ========================================================= */
+.ira-pagehero{
+  position: relative;
+  background: transparent;
+  padding: clamp(56px, 8vw, 110px) 0 clamp(56px, 8vw, 100px);
+  overflow: hidden;
+}
+
+/* halos colorés derrière le verre */
+.ira-pagehero::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(700px 500px at 8% 20%, rgba(44,122,62,.22), transparent 60%),
+    radial-gradient(600px 420px at 92% 80%, rgba(143,212,158,.28), transparent 65%),
+    radial-gradient(500px 380px at 55% -10%, rgba(15,30,61,.10), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ira-pagehero__inner{
+  position: relative;
+  max-width: 900px;
+  padding: clamp(2.2rem, 5vw, 3.4rem) clamp(1.6rem, 4vw, 3rem);
+  border-radius: 24px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* reflet interne */
+.ira-pagehero__inner::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(255,255,255,.65), transparent 45%),
+    radial-gradient(circle at 100% 100%, rgba(143,212,158,.20), transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ira-pagehero__inner > *{ position: relative; z-index: 1; }
+
+.ira-pagehero__title{
+  font-family: "Lexend", sans-serif;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  line-height: 1.12;
+  font-weight: 600;
+  letter-spacing: -.025em;
+  color: var(--night);
+  margin: 0 0 1.6rem;
+}
+.ira-pagehero__lead{
+  font-family: "Lexend", sans-serif;
+  font-size: clamp(1.02rem, 1.5vw, 1.18rem);
+  font-weight: 300;
+  color: var(--ira-muted);
+  max-width: 68ch;
+  margin: 0 0 1.1rem;
+}
+.ira-pagehero__lead:last-child{ margin-bottom: 0; }
+.ira-pagehero__lead strong{ font-weight: 500; color: var(--green); }
+
+/* =========================================================
+   NOTRE HISTOIRE — panneau de verre
+   ========================================================= */
+.ira-story{
+  position: relative;
+  background: transparent;
+  padding: clamp(70px, 10vw, 130px) 0;
+  overflow: hidden;
+}
+.ira-story::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(600px 420px at 92% 10%, rgba(44,122,62,.16), transparent 60%),
+    radial-gradient(500px 380px at 5% 90%, rgba(143,212,158,.22), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ira-story .ira-wrap{ position: relative; z-index: 1; }
+
+.ira-story__inner{
+  max-width: 780px;
+  margin-inline: auto;
+  padding: clamp(2rem, 4.5vw, 3.2rem) clamp(1.6rem, 4vw, 3rem);
+  border-radius: 24px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  position: relative;
+  overflow: hidden;
+}
+.ira-story__inner::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,255,255,.65), transparent 45%),
+    radial-gradient(circle at 100% 100%, rgba(143,212,158,.16), transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ira-story__inner > *{ position: relative; z-index: 1; }
+
+.ira-story__text{
+  font-family: "Lexend", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--ira-ink);
+  margin: 0 0 1.3rem;
+}
+.ira-story__text:last-child{ margin-bottom: 0; }
+
+/* =========================================================
+   MISSION & VISION — cartes de verre
+   ========================================================= */
+.ira-mv{
+  position: relative;
+  background: transparent;
+  padding: clamp(70px, 10vw, 130px) 0;
+  overflow: hidden;
+}
+.ira-mv::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(600px 420px at 10% 15%, rgba(143,212,158,.24), transparent 60%),
+    radial-gradient(560px 400px at 90% 85%, rgba(44,122,62,.18), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ira-mv .ira-wrap{ position: relative; z-index: 1; }
+
+.ira-mv__grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem;
+  margin-top: 3rem;
+}
+
+.ira-mv__card{
+  position: relative;
+  padding: 2.4rem 2.2rem;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  translate: 0 0;
+  transition: border-color .4s ease, box-shadow .5s ease, translate .5s cubic-bezier(.22,.61,.36,1);
+}
+
+/* reflet interne */
+.ira-mv__card::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,255,255,.7), transparent 45%),
+    radial-gradient(circle at 100% 100%, rgba(143,212,158,.16), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ira-mv__card > *{ position: relative; z-index: 1; }
+
+/* liseré haut qui se déploie */
+.ira-mv__card::after{
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,.9) 20%,
+    var(--green-soft) 50%,
+    rgba(255,255,255,.9) 80%,
+    transparent 100%);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .8s cubic-bezier(.22,.61,.36,1);
+  z-index: 2;
+}
+
+.ira-mv__card:hover{
+  translate: 0 -5px;
+  border-color: rgba(255,255,255,.95);
+  box-shadow:
+    0 24px 60px -18px rgba(15,30,61,.28),
+    0 4px 12px -4px rgba(15,30,61,.12),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(255,255,255,.4);
+}
+.ira-mv__card:hover::after{ transform: scaleX(1); }
+
+.ira-mv__card h3{
+  font-family: "Lexend", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -.015em;
+  color: var(--night);
+  margin: 0 0 .9rem;
+}
+.ira-mv__card p{
+  font-family: "Lexend", sans-serif;
+  font-size: .96rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--ira-muted);
+  margin: 0;
+}
+
+/* =========================================================
+   NOS VALEURS — liste en verre
+   ========================================================= */
+.ira-values{
+  position: relative;
+  background: transparent;
+  padding: clamp(70px, 10vw, 130px) 0;
+  overflow: hidden;
+}
+.ira-values::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(560px 400px at 88% 15%, rgba(44,122,62,.18), transparent 60%),
+    radial-gradient(500px 380px at 5% 88%, rgba(143,212,158,.22), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ira-values .ira-wrap{ position: relative; z-index: 1; }
+
+.ira-values__list{
+  margin-top: 3rem;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.ira-value{
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 2rem;
+  align-items: start;
+  padding: 1.9rem 2.2rem;
+  border-bottom: 1px solid rgba(255,255,255,.55);
+  transition: padding-left .3s cubic-bezier(.22,.61,.36,1), background .3s ease;
+  position: relative;
+}
+.ira-value:last-child{ border-bottom: 0; }
+
+/* reflet latéral au survol */
+.ira-value::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    rgba(143,212,158,.18) 0%,
+    rgba(143,212,158,.04) 30%,
+    transparent 60%);
+  opacity: 0;
+  transition: opacity .35s ease;
+  pointer-events: none;
+}
+.ira-value:hover::before{ opacity: 1; }
+
+.ira-value:hover{ padding-left: 2.8rem; }
+
+.ira-value__name{
+  display: flex;
+  align-items: baseline;
+  gap: .8rem;
+  font-family: "DM Serif Display", serif;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  color: var(--night);
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+.ira-value__name::before{
+  content: "";
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 10px rgba(44,122,62,.55);
+  transform: translateY(-2px);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.ira-value:hover .ira-value__name::before{
+  transform: translateY(-2px) scale(1.35);
+  box-shadow: 0 0 16px rgba(44,122,62,.85);
+}
+
+.ira-value__desc{
+  font-family: "Lexend", sans-serif;
+  font-size: .95rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--ira-muted);
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   CE QUI NOUS DISTINGUE — cartes de verre
+   ========================================================= */
+.ira-distinguish{
+  position: relative;
+  background: transparent;
+  padding: clamp(70px, 10vw, 130px) 0;
+  overflow: hidden;
+}
+.ira-distinguish::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(600px 420px at 12% 20%, rgba(143,212,158,.24), transparent 60%),
+    radial-gradient(600px 420px at 90% 80%, rgba(44,122,62,.18), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ira-distinguish .ira-wrap{ position: relative; z-index: 1; }
+
+.ira-distinguish__grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+  margin-top: 3rem;
+}
+
+.ira-distinguish__card{
+  position: relative;
+  padding: 2.2rem 2rem;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  translate: 0 0;
+  transition: border-color .4s ease, box-shadow .5s ease, translate .5s cubic-bezier(.22,.61,.36,1);
+}
+
+.ira-distinguish__card::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,255,255,.7), transparent 45%),
+    radial-gradient(circle at 100% 100%, rgba(143,212,158,.16), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ira-distinguish__card > *{ position: relative; z-index: 1; }
+
+.ira-distinguish__card:hover{
+  translate: 0 -5px;
+  border-color: rgba(255,255,255,.95);
+  box-shadow:
+    0 24px 60px -18px rgba(15,30,61,.28),
+    inset 0 1px 0 rgba(255,255,255,1);
+}
+
+.ira-distinguish__num{
+  font-family: "DM Serif Display", serif;
+  font-size: 2.1rem;
+  line-height: 1;
+  display: block;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-soft) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 8px rgba(44,122,62,.25));
+}
+.ira-distinguish__card h3{
+  font-family: "Lexend", sans-serif;
+  font-size: 1.08rem;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  color: var(--night);
+  margin: 0 0 .7rem;
+}
+.ira-distinguish__card p{
+  font-family: "Lexend", sans-serif;
+  font-size: .9rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--ira-muted);
+  margin: 0;
+}
+
+/* =========================================================
+   BANDEAU — TROIS REPÈRES (glass sur nuit)
+   ========================================================= */
+.ira-figures{
+  position: relative;
+  padding: clamp(60px, 8vw, 100px) 0;
+  overflow: hidden;
+  color: #fff;
+  background:
+    radial-gradient(900px 600px at 15% 20%, rgba(143,212,158,.22), transparent 60%),
+    radial-gradient(900px 600px at 85% 80%, rgba(44,122,62,.18), transparent 60%),
+    linear-gradient(135deg, #0b1832 0%, var(--night) 55%, #16294a 100%);
+}
+.ira-figures::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(600px 400px at 50% 0%, rgba(255,255,255,.10), transparent 70%);
+  pointer-events: none;
+}
+
+.ira-figures .ira-wrap{
+  position: relative;
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: 24px;
+  background: var(--glass-bg-dark);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border-dark);
+  box-shadow:
+    0 30px 80px -30px rgba(0,0,0,.5),
+    inset 0 1px 0 rgba(255,255,255,.22);
+}
+
+.ira-figures__kicker{
+  font-family: "Lexend", sans-serif;
+  font-size: .76rem;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+  text-align: center;
+  margin: 0 0 2.6rem;
+}
+.ira-figures__grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.ira-figures__item{
+  text-align: center;
+  padding: 0 1.5rem;
+  border-left: 1px solid rgba(255,255,255,.14);
+}
+.ira-figures__item:first-child{ border-left: 0; }
+
+.ira-figures__num{
+  font-family: "DM Serif Display", serif;
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  line-height: 1;
+  display: block;
+  margin-bottom: .7rem;
+  background: linear-gradient(135deg, #c7f2d1 0%, var(--green-soft) 60%, #5eb574 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 12px rgba(143,212,158,.35));
+}
+.ira-figures__label{
+  font-family: "Lexend", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: .01em;
+  color: #fff;
+  margin: 0;
+}
+
+/* =========================================================
+   APPEL FINAL — verre dans le vert
+   ========================================================= */
+.ira-final{
+  position: relative;
+  padding: clamp(70px, 10vw, 120px) 0;
+  text-align: center;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 600px at 20% 10%, rgba(143,212,158,.35), transparent 60%),
+    radial-gradient(900px 600px at 80% 90%, rgba(0,0,0,.25), transparent 60%),
+    linear-gradient(135deg, #34924b 0%, var(--green) 55%, #1e5528 100%);
+  color: #fff;
+}
+.ira-final::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(600px 400px at 50% 0%, rgba(255,255,255,.18), transparent 70%);
+  pointer-events: none;
+}
+
+.ira-final__inner{
+  position: relative;
+  max-width: 760px;
+  margin-inline: auto;
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 3rem);
+  border-radius: 24px;
+  background: var(--glass-bg-dark);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border-dark);
+  box-shadow:
+    0 30px 80px -30px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.28);
+}
+.ira-final h2{
+  font-family: "Lexend", sans-serif;
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  line-height: 1.2;
+  font-weight: 600;
+  margin: 0 0 1.2rem;
+  letter-spacing: -.02em;
+}
+.ira-final p{
+  font-family: "Lexend", sans-serif;
+  font-size: 1.02rem;
+  font-weight: 300;
+  color: rgba(255,255,255,.9);
+  margin: 0 0 2.2rem;
+}
+.ira-final .ira-btn--light{ border-color: #fff; }
+.ira-final .ira-btn--light:hover{ background: #fff; color: var(--green); }
+
+/* =========================================================
+   ANIMATIONS D'APPARITION AU SCROLL
+   ========================================================= */
+.ira-reveal{
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .9s cubic-bezier(.22,.61,.36,1),
+              transform .9s cubic-bezier(.22,.61,.36,1);
+  will-change: opacity, transform;
+}
+.ira-reveal.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 1024px){
+  .ira-distinguish__grid{ grid-template-columns: 1fr; gap: 1.2rem; }
+}
+
+@media (max-width: 820px){
+  .ira-mv__grid{ grid-template-columns: 1fr; }
+  .ira-value{ grid-template-columns: 1fr; gap: .7rem; padding: 1.6rem 1.6rem; }
+  .ira-value:hover{ padding-left: 1.6rem; }
+  .ira-value__name{ font-size: 1.2rem; }
+  #notre-histoire,
+  #mission,
+  #vision,
+  #nos-valeurs,
+  #ce-qui-nous-distingue,
+  #contact{ scroll-margin-top: 88px; }
+}
+
+@media (max-width: 720px){
+  .ira-figures__grid{ grid-template-columns: 1fr; }
+  .ira-figures__item{
+    border-left: 0;
+    padding: 1.6rem 0;
+  }
+  .ira-figures__item:first-child{ padding-top: 0; }
+  .ira-figures__item:last-child{ padding-bottom: 0; }
+  .ira-figures__item + .ira-figures__item{
+    border-top: 1px solid rgba(255,255,255,.14);
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITÉ — mouvement réduit
+   ========================================================= */
+@media (prefers-reduced-motion: reduce){
+  .ira-reveal{
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .ira-btn,
+  .ira-btn::after,
+  .ira-mv__card,
+  .ira-mv__card::after,
+  .ira-distinguish__card,
+  .ira-value,
+  .ira-value::before{
+    transition: none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER (injecté) -->
+<div id="site-header"></div>
+
+<!-- =========================================================
+     EN-TÊTE DE PAGE
+     ========================================================= -->
+<section class="ira-pagehero">
+  <div class="ira-wrap">
+    <div class="ira-pagehero__inner ira-reveal">
+      <p class="ira-eyebrow">À propos</p>
+      <h1 class="ira-pagehero__title">Transformer les données<br>en décisions.</h1>
+      <p class="ira-pagehero__lead">
+        Impact Research &amp; Advisory (IRA) est un cabinet de conseil spécialisé dans la
+        recherche appliquée, le suivi-évaluation, l'analyse des politiques publiques et
+        l'amélioration de la performance des programmes de développement et humanitaires.
+      </p>
+      <p class="ira-pagehero__lead">
+        Nous accompagnons les <strong>ONG, agences des Nations Unies, bailleurs, institutions
+        publiques, organisations internationales et acteurs privés</strong> dans la production
+        et l'utilisation d'évidences fiables.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     NOTRE HISTOIRE  →  #notre-histoire
+     ========================================================= -->
+<section class="ira-story" id="notre-histoire">
+  <div class="ira-wrap">
+    <div class="ira-story__inner ira-reveal">
+
+      <span class="ira-section-line" aria-hidden="true"></span>
+      <h2 class="ira-title">D'où vient IRA</h2>
+
+      <p class="ira-story__text">
+        IRA est né d’un constat simple : en République démocratique du Congo et en Afrique
+        centrale, trop de décisions publiques et de programmes de développement reposent
+        encore sur des intuitions, des données fragmentées ou des rapports jamais utilisés.
+        Des chercheurs, évaluateurs et praticiens du développement ont voulu changer cela.
+        Ils ont créé IRA pour offrir un espace où la rigueur méthodologique rencontre
+        l’exigence du terrain, où chaque étude est conçue pour éclairer une décision réelle.
+        L’ambition : bâtir un cabinet de référence, enraciné localement, dont les preuves
+        servent concrètement l’action publique et le changement.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     MISSION & VISION  →  #mission  /  #vision
+     ========================================================= -->
+<section class="ira-mv" id="mission-vision">
+  <div class="ira-wrap">
+
+    <div class="ira-reveal">
+      <span class="ira-section-line" aria-hidden="true"></span>
+      <h2 class="ira-title">Ce que nous faisons,<br>ce que nous voulons devenir.</h2>
+    </div>
+
+    <div class="ira-mv__grid">
+
+      <!-- MISSION → #mission -->
+      <article class="ira-mv__card ira-reveal" id="mission">
+        <h3>Éclairer les décisions par la preuve</h3>
+        <p>
+          IRA accompagne les institutions publiques, les organisations de la société civile,
+          les bailleurs de fonds et les entreprises dans la production et l'utilisation de
+          preuves rigoureuses pour éclairer leurs décisions stratégiques, opérationnelles
+          et politiques.
+        </p>
+      </article>
+
+      <!-- VISION → #vision -->
+      <article class="ira-mv__card ira-reveal" id="vision">
+        <h3>Une référence en Afrique centrale</h3>
+        <p>
+          Devenir un cabinet de référence en Afrique centrale pour la recherche appliquée,
+          l'évaluation d'impact et le conseil fondé sur l'évidence, reconnu pour la rigueur
+          de ses méthodes, l'indépendance de son jugement et la qualité de sa relation avec
+          ses partenaires.
+        </p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     NOS VALEURS  →  #nos-valeurs
+     ========================================================= -->
+<section class="ira-values" id="nos-valeurs">
+  <div class="ira-wrap">
+
+    <div class="ira-reveal">
+      <span class="ira-section-line" aria-hidden="true"></span>
+      <h2 class="ira-title">Cinq valeurs, tenues concrètement.</h2>
+      <p class="ira-lead">
+        Ce que chacune de nos valeurs signifie, en pratique, dans la conduite
+        d'une mission.
+      </p>
+    </div>
+
+    <div class="ira-values__list ira-reveal">
+
+      <div class="ira-value">
+        <p class="ira-value__name">Evidence</p>
+        <p class="ira-value__desc">
+          Aucune recommandation n'est formulée sans avoir été étayée par une analyse
+          rigoureuse des données disponibles.
+        </p>
+      </div>
+
+      <div class="ira-value">
+        <p class="ira-value__name">Impact</p>
+        <p class="ira-value__desc">
+          Chaque mission est conçue, dès le départ, pour produire un changement mesurable
+          et utile à nos partenaires.
+        </p>
+      </div>
+
+      <div class="ira-value">
+        <p class="ira-value__name">Better Decisions</p>
+        <p class="ira-value__desc">
+          Nos livrables sont pensés pour être utilisés dans une décision réelle,
+          pas simplement archivés.
+        </p>
+      </div>
+
+      <div class="ira-value">
+        <p class="ira-value__name">Indépendance</p>
+        <p class="ira-value__desc">
+          Notre Comité Scientifique et d'Assurance Qualité garantit un jugement libre
+          de toute pression commerciale.
+        </p>
+      </div>
+
+      <div class="ira-value">
+        <p class="ira-value__name">Redevabilité</p>
+        <p class="ira-value__desc">
+          Nous rendons compte, avec la même exigence, aux commanditaires de nos missions
+          et aux populations qu'elles concernent.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     CE QUI NOUS DISTINGUE
+     ========================================================= -->
+<section class="ira-distinguish" id="ce-qui-nous-distingue">
+  <div class="ira-wrap">
+
+    <div class="ira-reveal">
+      <span class="ira-section-line" aria-hidden="true"></span>
+      <h2 class="ira-title">Trois raisons de nous confier<br>vos décisions les plus exigeantes.</h2>
+    </div>
+
+    <div class="ira-distinguish__grid">
+
+      <article class="ira-distinguish__card ira-reveal">
+        <span class="ira-distinguish__num">01</span>
+        <h3>Rigueur scientifique</h3>
+        <p>
+          Des standards comparables à ceux des cabinets internationaux, garantis par un
+          Comité Scientifique et d'Assurance Qualité indépendant des impératifs commerciaux.
+        </p>
+      </article>
+
+      <article class="ira-distinguish__card ira-reveal">
+        <span class="ira-distinguish__num">02</span>
+        <h3>Ancrage local fort</h3>
+        <p>
+          Une compréhension fine du contexte institutionnel congolais comme du réseau
+          de consultants associés mobilisables sur l'ensemble du territoire.
+        </p>
+      </article>
+
+      <article class="ira-distinguish__card ira-reveal">
+        <span class="ira-distinguish__num">03</span>
+        <h3>Agilité structurelle</h3>
+        <p>
+          Une structure légère et matricielle, qui permet des délais de réponse et de
+          mobilisation courts, à un niveau de coût compétitif, sans compromis sur la
+          qualité méthodologique.
+        </p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     BANDEAU — TROIS REPÈRES
+     ========================================================= -->
+<section class="ira-figures" aria-label="Nos trois repères">
+  <div class="ira-wrap ira-reveal">
+    <p class="ira-figures__kicker">Ce qui nous guide</p>
+
+    <div class="ira-figures__grid">
+      <div class="ira-figures__item">
+        <span class="ira-figures__num">01</span>
+        <p class="ira-figures__label">Evidence</p>
+      </div>
+      <div class="ira-figures__item">
+        <span class="ira-figures__num">02</span>
+        <p class="ira-figures__label">Impact</p>
+      </div>
+      <div class="ira-figures__item">
+        <span class="ira-figures__num">03</span>
+        <p class="ira-figures__label">Learning</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     APPEL FINAL
+     ========================================================= -->
+<section class="ira-final" id="contact">
+  <div class="ira-wrap">
+    <div class="ira-final__inner ira-reveal">
+      <h2>Un mandat à construire, une équipe à rencontrer&nbsp;?</h2>
+      <p>
+        Parlons de votre besoin — nous vous proposons, sans engagement,
+        un premier échange pour cadrer ensemble la meilleure approche.
+      </p>
+      <a href="/consultations" class="ira-btn ira-btn--light">
+        Prendre contact
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER (injecté) -->
+<div id="site-footer"></div>
+
+<script>
+/* =========================================================
+   INJECTION HEADER + FOOTER
+   ========================================================= */
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("/components/header.html")
+    .then(function (r) { return r.ok ? r.text() : ""; })
+    .then(function (html) { if (html) document.getElementById("site-header").innerHTML = html; })
+    .catch(function () {});
+
+  fetch("/components/footer.html")
+    .then(function (r) { return r.ok ? r.text() : ""; })
+    .then(function (html) { if (html) document.getElementById("site-footer").innerHTML = html; })
+    .catch(function () {});
+});
+
+/* =========================================================
+   APPARITION AU SCROLL
+   ========================================================= */
+(function () {
+  var targets = document.querySelectorAll(".ira-reveal");
+  if (!targets.length) return;
+
+  if (!("IntersectionObserver" in window)) {
+    targets.forEach(function (el) { el.classList.add("is-visible"); });
+    return;
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry, i) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        // petit décalage progressif dans une même grille
+        var siblings = el.parentElement ? el.parentElement.querySelectorAll(":scope > .ira-reveal") : null;
+        var delay = 0;
+        if (siblings && siblings.length > 1) {
+          var idx = Array.prototype.indexOf.call(siblings, el);
+          delay = Math.min(idx * 0.12, 0.6);
+        }
+        setTimeout(function () { el.classList.add("is-visible"); }, delay * 1000);
+        io.unobserve(el);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: "0px 0px -60px 0px"
+  });
+
+  targets.forEach(function (el) { io.observe(el); });
+})();
+</script>
+
+</body>
+</html>

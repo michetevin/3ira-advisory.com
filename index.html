@@ -1,1 +1,1741 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IRA — Impact Research &amp; Advisory</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Playball&family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   IRA — GLOBAL
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root{
+  --ira-bg:     #f7f4ef;
+  --ira-bg-alt: #ffffff;
+  --ira-ink:    #101c2c;
+  --green:      #2c7a3e;
+  --green-soft: #8fd49e;
+  --night:      #0f1e3d;
+  --ira-muted:  #5b6472;
+  --ira-line:   #e6e1d8;
+  --ira-radius: 14px;
+  --ira-max:    1200px;
+
+  /* Liquid glass tokens */
+  --glass-bg:      linear-gradient(135deg, rgba(255,255,255,.62) 0%, rgba(255,255,255,.28) 60%, rgba(255,255,255,.42) 100%);
+  --glass-bg-dark: linear-gradient(135deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,.06) 60%, rgba(255,255,255,.14) 100%);
+  --glass-border:  rgba(255,255,255,.72);
+  --glass-border-dark: rgba(255,255,255,.28);
+  --glass-blur:    blur(22px) saturate(180%);
+  --glass-shadow:
+    0 10px 40px -12px rgba(15,30,61,.18),
+    0 2px 8px -4px rgba(15,30,61,.10),
+    inset 0 1px 0 rgba(255,255,255,.9),
+    inset 0 -1px 0 rgba(255,255,255,.35);
+}
+
+html { scroll-behavior: smooth; }
+
+body{
+  margin: 0;
+  background:
+    radial-gradient(1200px 800px at 10% 0%, rgba(143,212,158,.10), transparent 60%),
+    radial-gradient(1000px 700px at 90% 100%, rgba(44,122,62,.08), transparent 60%),
+    var(--ira-bg);
+  background-attachment: fixed;
+  color: var(--ira-ink);
+  font-family: "Lexend", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a   { color: inherit; text-decoration: none; }
+
+.playball-regular { font-family: "Playball", cursive; font-weight: 400; font-style: normal; }
+.dm-serif-display-regular { font-family: "DM Serif Display", serif; font-weight: 400; font-style: normal; }
+.dm-serif-display-regular-italic { font-family: "DM Serif Display", serif; font-weight: 400; font-style: italic; }
+
+.lexend-body {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.ira-wrap{
+  width: min(100% - 40px, var(--ira-max));
+  margin-inline: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- boutons (liquid glass) ---------- */
+.ira-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: .55em;
+  padding: 1rem 1.7rem;
+  border-radius: 999px;
+  font-family: "Lexend", sans-serif;
+  font-weight: 500;
+  font-size: .95rem;
+  letter-spacing: .01em;
+  border: 1px solid transparent;
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    transform .3s cubic-bezier(.22,.61,.36,1),
+    background-color .3s ease,
+    color .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease;
+}
+.ira-btn:hover { transform: translateY(-2px); }
+
+/* Reflet lumineux qui traverse le bouton */
+.ira-btn::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform .9s cubic-bezier(.22,.61,.36,1);
+  pointer-events: none;
+}
+.ira-btn:hover::after{ transform: translateX(120%); }
+
+.ira-btn--primary{
+  background: linear-gradient(135deg, #34924b 0%, var(--green) 55%, #215e2f 100%);
+  color: #fff;
+  border-color: rgba(255,255,255,.25);
+  box-shadow:
+    0 12px 28px -10px rgba(44,122,62,.55),
+    inset 0 1px 0 rgba(255,255,255,.35),
+    inset 0 -2px 6px rgba(0,0,0,.15);
+}
+.ira-btn--primary:hover{
+  box-shadow:
+    0 18px 36px -10px rgba(44,122,62,.65),
+    inset 0 1px 0 rgba(255,255,255,.45),
+    inset 0 -2px 6px rgba(0,0,0,.18);
+}
+
+.ira-btn--ghost{
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  color: var(--night);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+.ira-btn--ghost:hover{
+  color: #fff;
+  background: linear-gradient(135deg, var(--night), #1b3055);
+  border-color: rgba(255,255,255,.15);
+}
+
+.ira-btn--light{
+  background: var(--glass-bg-dark);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  color: #fff;
+  border-color: var(--glass-border-dark);
+  box-shadow:
+    0 8px 30px -10px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.3);
+}
+.ira-btn--light:hover{ background: #fff; color: var(--green); border-color: #fff; }
+
+/* ---------- titres ---------- */
+.ira-title{
+  font-family: "Lexend", sans-serif;
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  line-height: 1.15;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  letter-spacing: -.02em;
+  color: var(--night);
+}
+
+.ira-lead{
+  font-family: "Lexend", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--ira-muted);
+  max-width: 62ch;
+  margin: 0;
+}
+
+/* =========================================================
+   HERO — SLIDER
+   ========================================================= */
+.ira-slider{
+  position: relative;
+  height: clamp(560px, 86vh, 860px);
+  background: var(--night);
+  overflow: hidden;
+  isolation: isolate;
+}
+.ira-slider:focus-visible{
+  outline: 2px solid var(--green-soft);
+  outline-offset: -4px;
+}
+
+.ira-slider__viewport{
+  position: absolute;
+  inset: 0;
+}
+
+.ira-slide{
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+.ira-slide.is-active{
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+.ira-slide__bg{
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.ira-slide__bg img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1);
+  will-change: transform;
+}
+.ira-slide.is-active .ira-slide__bg img{
+  animation: iraKenBurns 9s ease-out forwards;
+}
+@keyframes iraKenBurns{
+  from { transform: scale(1.09); }
+  to   { transform: scale(1); }
+}
+
+.ira-slide__scrim{
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: min(58%, 720px);
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(8, 17, 36, .80) 0%,
+    rgba(8, 17, 36, .55) 42%,
+    rgba(8, 17, 36, .14) 78%,
+    rgba(8, 17, 36, 0)  100%
+  );
+}
+
+.ira-slide__icons{
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: min(58%, 720px);
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+.ira-slide__icon{
+  position: absolute;
+  width: clamp(36px, 4.6vw, 68px);
+  height: auto;
+  color: var(--green-soft);
+  opacity: .13;
+}
+
+.ira-slide__inner{
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding-top: 80px;
+  padding-bottom: clamp(96px, 14vh, 170px);
+}
+
+.ira-slide__panel{
+  max-width: 680px;
+  text-align: left;
+  color: #fff;
+}
+
+.ira-slide__title{
+  font-family: "Lexend", sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.35rem, 2.8vw, 2.15rem);
+  line-height: 1.18;
+  letter-spacing: -.02em;
+  color: #fff;
+  margin: 0 0 1rem;
+  text-shadow: 0 2px 24px rgba(0,0,0,.35);
+}
+
+.ira-slide__desc{
+  font-family: "Lexend", sans-serif;
+  font-weight: 500;
+  font-size: clamp(.95rem, 1.25vw, 1.1rem);
+  line-height: 1.5;
+  letter-spacing: .01em;
+  color: var(--green-soft);
+  margin: 0 0 2rem;
+  max-width: 46ch;
+}
+
+.ira-slide__cta{
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  font-family: "Lexend", sans-serif;
+  font-weight: 500;
+  font-size: .95rem;
+  color: #fff;
+  padding: .8rem 1.3rem;
+  border-radius: 999px;
+  background: var(--glass-bg-dark);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid var(--glass-border-dark);
+  box-shadow:
+    0 8px 26px -12px rgba(0,0,0,.5),
+    inset 0 1px 0 rgba(255,255,255,.28);
+  transition: gap .3s ease, color .3s ease, background .3s ease, border-color .3s ease, transform .3s ease;
+}
+.ira-slide__cta:hover{
+  gap: 1rem;
+  color: var(--green-soft);
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.5);
+  transform: translateY(-2px);
+}
+.ira-slide__cta svg{ width: 15px; height: 15px; }
+
+.ira-slide__cta--wide{
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  padding: 1.05rem 2.4rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #34924b 0%, var(--green) 55%, #215e2f 100%);
+  border: 1px solid rgba(255,255,255,.25);
+  color: #fff;
+  font-weight: 500;
+  font-size: 1rem;
+  box-shadow:
+    0 14px 34px -10px rgba(44,122,62,.55),
+    inset 0 1px 0 rgba(255,255,255,.35);
+  transition: background .3s ease, transform .3s ease, gap .3s ease, box-shadow .3s ease;
+}
+.ira-slide__cta--wide:hover{
+  transform: translateY(-2px);
+  gap: 1rem;
+  box-shadow:
+    0 20px 44px -10px rgba(44,122,62,.7),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+.ira-slide__cta--wide svg{ width: 16px; height: 16px; }
+
+@keyframes iraRevealUp{
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ira-slide .ira-slide__title,
+.ira-slide .ira-slide__desc,
+.ira-slide .ira-slide__cta{
+  opacity: 0;
+  transform: translateY(28px);
+}
+.ira-slide.is-active .ira-slide__title{
+  animation: iraRevealUp .8s cubic-bezier(.22,.61,.36,1) .15s forwards;
+}
+.ira-slide.is-active .ira-slide__desc{
+  animation: iraRevealUp .8s cubic-bezier(.22,.61,.36,1) .3s forwards;
+}
+.ira-slide.is-active .ira-slide__cta{
+  animation: iraRevealUp .8s cubic-bezier(.22,.61,.36,1) .45s forwards;
+}
+
+/* --- navigation : arrosw glass --- */
+.ira-slider__nav{
+  position: absolute;
+  z-index: 5;
+  right: max(20px, calc((100% - var(--ira-max)) / 2));
+  bottom: clamp(30px, 5vw, 56px);
+  display: flex;
+  gap: .7rem;
+}
+
+.ira-slider__arrow{
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  color: #fff;
+  border: 1px solid var(--glass-border-dark);
+  background: var(--glass-bg-dark);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  backdrop-filter: blur(16px) saturate(170%);
+  box-shadow:
+    0 8px 26px -12px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,255,255,.35);
+  transition: background .3s ease, color .3s ease, border-color .3s ease, transform .3s ease;
+}
+.ira-slider__arrow:hover{
+  background: #fff;
+  color: var(--night);
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+.ira-slider__arrow:focus-visible{
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.ira-slider__arrow svg{ width: 18px; height: 18px; }
+
+.ira-slider__dots{
+  position: absolute;
+  z-index: 5;
+  right: max(20px, calc((100% - var(--ira-max)) / 2));
+  bottom: clamp(88px, 11vw, 124px);
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .55rem .85rem;
+  border-radius: 999px;
+  background: var(--glass-bg-dark);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  backdrop-filter: blur(16px) saturate(170%);
+  border: 1px solid var(--glass-border-dark);
+  box-shadow:
+    0 8px 26px -12px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.28);
+}
+
+.ira-slider__dot{
+  width: 30px;
+  height: 3px;
+  padding: 0;
+  border: 0;
+  border-radius: 99px;
+  cursor: pointer;
+  background: rgba(255,255,255,.4);
+  transition: background .3s ease, width .3s ease;
+}
+.ira-slider__dot:hover{ background: rgba(255,255,255,.75); }
+.ira-slider__dot.is-active{ background: #fff; width: 54px; }
+.ira-slider__dot:focus-visible{
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+@media (max-width: 820px){
+  .ira-slider{
+    height: 88vh;
+    min-height: 640px;
+  }
+  .ira-slide__scrim{
+    inset: auto 0 0 0;
+    width: 100%;
+    height: 68%;
+    background: linear-gradient(
+      180deg,
+      rgba(8,17,36,0)   0%,
+      rgba(8,17,36,.45) 42%,
+      rgba(8,17,36,.80) 100%
+    );
+  }
+  .ira-slide__icons{
+    inset: auto 0 0 0;
+    width: 100%;
+    height: 68%;
+  }
+  .ira-slide__inner{
+    align-items: flex-end;
+    padding-top: 70px;
+    padding-bottom: 160px;
+  }
+  .ira-slide__panel{ max-width: 100%; }
+  .ira-slider__nav{
+    right: 20px;
+    bottom: 22px;
+  }
+  .ira-slider__arrow{ width: 46px; height: 46px; }
+  .ira-slider__dots{
+    right: 20px;
+    bottom: 84px;
+  }
+}
+
+@media (max-width: 420px){
+  .ira-slide__title{ font-size: 1.25rem; }
+  .ira-slide__desc{ font-size: .9rem; }
+}
+
+/* =========================================================
+   2.1 — OUVERTURE (glass panel)
+   ========================================================= */
+.ira-intro{
+  background: transparent;
+  padding: clamp(60px, 9vw, 120px) 0;
+  position: relative;
+}
+
+.ira-intro__inner{
+  max-width: 880px;
+  margin-inline: auto;
+  text-align: center;
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem);
+  border-radius: 24px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  position: relative;
+  overflow: hidden;
+}
+/* reflet interne du verre */
+.ira-intro__inner::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(255,255,255,.6), transparent 45%),
+    radial-gradient(circle at 100% 100%, rgba(143,212,158,.22), transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ira-intro__inner > *{ position: relative; z-index: 1; }
+
+.ira-intro__text{
+  font-family: "Lexend", sans-serif;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  line-height: 1.6;
+  font-weight: 300;
+  color: var(--ira-ink);
+  margin: 0 0 2.2rem;
+}
+.ira-intro__text strong{ font-weight: 500; color: var(--green); }
+.ira-intro__cta{ display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* =========================================================
+   2.2 — POURQUOI IRA (liquid glass)
+   ========================================================= */
+.ira-why{
+  position: relative;
+  background: transparent;
+  padding: clamp(70px, 10vw, 130px) 0;
+  overflow: hidden;
+}
+
+/* halos colorés derrière le verre */
+.ira-why::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(600px 400px at 12% 18%, rgba(44,122,62,.22), transparent 60%),
+    radial-gradient(500px 380px at 88% 78%, rgba(143,212,158,.28), transparent 65%),
+    radial-gradient(420px 320px at 55% 105%, rgba(15,30,61,.10), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ira-why .ira-wrap{ position: relative; z-index: 1; }
+
+.ira-why__grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.6rem;
+  margin-top: 3.5rem;
+}
+
+.ira-why__card{
+  position: relative;
+  border-radius: 20px;
+  padding: 2.2rem 1.8rem 2rem;
+  overflow: hidden;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  opacity: 0;
+  transform: translateY(28px);
+  translate: 0 0;
+  transition:
+    border-color .4s ease,
+    box-shadow .5s ease,
+    translate .5s cubic-bezier(.22,.61,.36,1);
+}
+
+/* reflet lumineux interne */
+.ira-why__card::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,255,255,.7), transparent 45%),
+    radial-gradient(circle at 100% 100%, rgba(143,212,158,.18), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ira-why__card > *{ position: relative; z-index: 1; }
+
+/* liseré supérieur qui se déploie */
+.ira-why__card::before{
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,.9) 20%,
+    var(--green-soft) 50%,
+    rgba(255,255,255,.9) 80%,
+    transparent 100%);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .8s cubic-bezier(.22,.61,.36,1);
+  z-index: 2;
+}
+
+.ira-why__card.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+  animation-name: iraCardReveal;
+  animation-duration: .9s;
+  animation-timing-function: cubic-bezier(.22,.61,.36,1);
+  animation-delay: var(--reveal-delay, 0s);
+  animation-fill-mode: backwards;
+}
+.ira-why__grid > .ira-why__card:nth-child(1){ --reveal-delay: .05s; }
+.ira-why__grid > .ira-why__card:nth-child(2){ --reveal-delay: .18s; }
+.ira-why__grid > .ira-why__card:nth-child(3){ --reveal-delay: .31s; }
+.ira-why__grid > .ira-why__card:nth-child(4){ --reveal-delay: .44s; }
+
+.ira-why__card:hover{
+  translate: 0 -6px;
+  border-color: rgba(255,255,255,.95);
+  box-shadow:
+    0 24px 60px -18px rgba(15,30,61,.28),
+    0 4px 12px -4px rgba(15,30,61,.12),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(255,255,255,.4);
+}
+.ira-why__card:hover::before{ transform: scaleX(1); }
+
+/* icône : pastille de verre */
+.ira-why__icon{
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.3rem;
+  color: var(--green);
+  background: linear-gradient(135deg, rgba(255,255,255,.85), rgba(255,255,255,.4));
+  border: 1px solid rgba(255,255,255,.85);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+  box-shadow:
+    0 6px 20px -8px rgba(44,122,62,.35),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(44,122,62,.08);
+  transition: background .4s ease, box-shadow .4s ease, transform .4s ease, color .4s ease;
+}
+.ira-why__icon svg{ width: 26px; height: 26px; }
+
+.ira-why__card:hover .ira-why__icon{
+  background: linear-gradient(135deg, var(--green-soft), var(--green));
+  color: #fff;
+  transform: scale(1.06) rotate(-3deg);
+  box-shadow:
+    0 10px 28px -8px rgba(44,122,62,.55),
+    inset 0 1px 0 rgba(255,255,255,.6);
+}
+
+.ira-why__card h3{
+  font-family: "Lexend", sans-serif;
+  font-size: 1.08rem;
+  font-weight: 500;
+  margin: 0 0 .7rem;
+  letter-spacing: -.01em;
+  color: var(--night);
+}
+.ira-why__card p{
+  font-family: "Lexend", sans-serif;
+  font-size: .9rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--ira-muted);
+  margin: 0;
+}
+
+@keyframes iraCardReveal{
+  from { opacity: 0; transform: translateY(28px); }
+}
+
+@media (max-width: 1024px){
+  .ira-why__grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px){
+  .ira-why__grid{ grid-template-columns: 1fr; gap: 1.2rem; }
+}
+
+/* =========================================================
+   2.3 — EXPERTISES (glass items)
+   ========================================================= */
+.ira-expertise{
+  position: relative;
+  background: transparent;
+  padding: clamp(70px, 10vw, 130px) 0;
+  overflow: hidden;
+}
+.ira-expertise::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(500px 380px at 90% 5%, rgba(44,122,62,.16), transparent 60%),
+    radial-gradient(600px 400px at 5% 95%, rgba(143,212,158,.22), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ira-expertise .ira-wrap{ position: relative; z-index: 1; }
+
+.ira-expertise__figure{
+  margin: 0 0 clamp(2.5rem, 5vw, 4rem);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #e6e1d8;
+  max-height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,.6);
+  box-shadow:
+    0 20px 60px -25px rgba(15,30,61,.25),
+    inset 0 1px 0 rgba(255,255,255,.7);
+}
+.ira-expertise__figure img{
+  display: block;
+  max-width: 100%;
+  max-height: 350px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 720px){
+  .ira-expertise__figure{ max-height: 250px; }
+  .ira-expertise__figure img{ max-height: 250px; }
+}
+
+.ira-expertise__head{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+.ira-expertise__list{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+.ira-exp-item{
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  padding: 1.7rem 1.8rem;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  transition: border-color .3s ease, translate .4s cubic-bezier(.22,.61,.36,1), box-shadow .4s ease;
+}
+
+/* reflet interne */
+.ira-exp-item::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(255,255,255,.75), transparent 45%),
+    radial-gradient(circle at 100% 100%, rgba(143,212,158,.14), transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ira-exp-item > *{ position: relative; z-index: 1; }
+
+.ira-exp-item:hover{
+  border-color: rgba(255,255,255,.95);
+  translate: 6px 0;
+  box-shadow:
+    0 22px 50px -18px rgba(15,30,61,.28),
+    inset 0 1px 0 rgba(255,255,255,1);
+}
+
+.ira-exp-item__num{
+  font-family: "DM Serif Display", serif;
+  font-size: 1.9rem;
+  color: var(--green);
+  line-height: 1;
+  min-width: 42px;
+  text-shadow: 0 2px 12px rgba(44,122,62,.2);
+}
+.ira-exp-item__body h3{
+  font-family: "Lexend", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 0 .35rem;
+  color: var(--night);
+}
+.ira-exp-item__body p{
+  font-family: "Lexend", sans-serif;
+  font-size: .88rem;
+  font-weight: 300;
+  color: var(--ira-muted);
+  margin: 0;
+}
+
+@media (max-width: 820px){
+  .ira-expertise__list{ grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   2.4 — APPROCHE (glass + slow motion + ligne de connexion)
+   ========================================================= */
+.ira-approach{
+  position: relative;
+  padding: clamp(80px, 11vw, 150px) 0;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 600px at 15% 20%, rgba(143,212,158,.28), transparent 60%),
+    radial-gradient(900px 600px at 90% 80%, rgba(44,122,62,.18), transparent 60%),
+    linear-gradient(180deg, #eaf1fa 0%, #f0f6fb 100%);
+  color: var(--night);
+}
+.ira-approach::before{
+  content: "";
+  position: absolute; inset: 0;
+  background-image: url('/images/ira-workshop.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: .06;
+  z-index: 0;
+}
+.ira-approach__inner{
+  position: relative;
+  z-index: 1;
+}
+.ira-approach .ira-title{ color: var(--night); }
+.ira-approach .ira-lead{ color: var(--ira-muted); }
+
+.ira-approach__grid{
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+/* ligne horizontale en verre */
+.ira-approach__grid::before{
+  content: "";
+  position: absolute;
+  top: calc(2rem + 26px);
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,.95) 12%,
+    var(--green-soft) 50%,
+    rgba(255,255,255,.95) 88%,
+    transparent 100%);
+  box-shadow: 0 1px 6px rgba(143,212,158,.5);
+  z-index: 0;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1.6s cubic-bezier(.22,.61,.36,1) .25s;
+}
+.ira-approach__grid.is-visible::before{
+  transform: scaleX(1);
+}
+
+/* petits points lumineux aux extrémités / milieux */
+.ira-approach__grid::after{
+  content: "";
+  position: absolute;
+  top: calc(2rem + 26px);
+  left: 16.66%;
+  right: 16.66%;
+  height: 1.5px;
+  background-image:
+    radial-gradient(circle, var(--green) 0 2.5px, transparent 3px),
+    radial-gradient(circle, var(--green) 0 2.5px, transparent 3px);
+  background-size: 2.5px 2.5px, 2.5px 2.5px;
+  background-position: 0 50%, 100% 50%;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 6px rgba(44,122,62,.55));
+  opacity: 0;
+  transition: opacity .6s ease 1.4s;
+  pointer-events: none;
+  z-index: 1;
+}
+.ira-approach__grid.is-visible::after{ opacity: 1; }
+
+.ira-approach__card{
+  position: relative;
+  z-index: 1;
+  padding: 2rem 1.8rem;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  opacity: 0;
+  transform: translateY(32px);
+  translate: 0 0;
+  transition:
+    border-color .4s ease,
+    box-shadow .5s ease,
+    translate .5s cubic-bezier(.22,.61,.36,1);
+}
+
+/* reflet interne */
+.ira-approach__card::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,255,255,.75), transparent 45%),
+    radial-gradient(circle at 100% 100%, rgba(143,212,158,.18), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ira-approach__card > *{ position: relative; z-index: 1; }
+
+.ira-approach__card.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+  animation-name: iraPrincipleReveal;
+  animation-duration: 1.4s;                 /* slow motion */
+  animation-timing-function: cubic-bezier(.22,.61,.36,1);
+  animation-delay: var(--reveal-delay, 0s);
+  animation-fill-mode: backwards;
+}
+.ira-approach__grid > .ira-approach__card:nth-child(1){ --reveal-delay: .10s; }
+.ira-approach__grid > .ira-approach__card:nth-child(2){ --reveal-delay: .35s; }
+.ira-approach__grid > .ira-approach__card:nth-child(3){ --reveal-delay: .60s; }
+
+.ira-approach__card:hover{
+  translate: 0 -5px;
+  border-color: rgba(255,255,255,.95);
+  box-shadow:
+    0 24px 55px -20px rgba(15,30,61,.28),
+    inset 0 1px 0 rgba(255,255,255,1);
+}
+
+.ira-approach__card .ira-why__icon{
+  background: linear-gradient(135deg, rgba(255,255,255,.85), rgba(255,255,255,.4));
+  color: var(--green);
+}
+.ira-approach__card:hover .ira-why__icon{
+  background: linear-gradient(135deg, var(--green-soft), var(--green));
+  color: #fff;
+}
+.ira-approach__card h3{
+  font-family: "Lexend", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin: 0 0 .6rem;
+  color: var(--night);
+}
+.ira-approach__card p{
+  font-family: "Lexend", sans-serif;
+  font-size: .9rem;
+  font-weight: 300;
+  color: var(--ira-muted);
+  margin: 0;
+}
+
+.ira-approach__link{
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  margin-top: 2.8rem;
+  padding: .9rem 1.6rem;
+  border-radius: 999px;
+  font-family: "Lexend", sans-serif;
+  font-weight: 500;
+  font-size: .95rem;
+  color: var(--night);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  transition: gap .3s ease, color .3s ease, background .3s ease, transform .3s ease;
+}
+.ira-approach__link:hover{
+  gap: 1rem;
+  color: var(--green);
+  transform: translateY(-2px);
+}
+.ira-approach__link svg{ width: 16px; height: 16px; }
+
+@keyframes iraPrincipleReveal{
+  from { opacity: 0; transform: translateY(32px); }
+}
+
+@media (max-width: 900px){
+  .ira-approach__grid{ grid-template-columns: 1fr; gap: 1.2rem; }
+  .ira-approach__grid::before{
+    top: 0;
+    bottom: 0;
+    left: calc(1.8rem + 26px);
+    right: auto;
+    width: 1.5px;
+    height: auto;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(255,255,255,.95) 12%,
+      var(--green-soft) 50%,
+      rgba(255,255,255,.95) 88%,
+      transparent 100%);
+    transform: scaleY(0);
+    transform-origin: top center;
+    transition: transform 1.6s cubic-bezier(.22,.61,.36,1) .25s;
+  }
+  .ira-approach__grid.is-visible::before{ transform: scaleY(1); }
+
+  .ira-approach__grid::after{
+    display: none;
+  }
+}
+
+/* =========================================================
+   2.6 — APPEL FINAL (glass inside green)
+   ========================================================= */
+.ira-final{
+  position: relative;
+  padding: clamp(70px, 10vw, 120px) 0;
+  text-align: center;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 600px at 20% 10%, rgba(143,212,158,.35), transparent 60%),
+    radial-gradient(900px 600px at 80% 90%, rgba(0,0,0,.25), transparent 60%),
+    linear-gradient(135deg, #34924b 0%, var(--green) 55%, #1e5528 100%);
+  color: #fff;
+}
+.ira-final::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(600px 400px at 50% 0%, rgba(255,255,255,.18), transparent 70%);
+  pointer-events: none;
+}
+
+.ira-final__inner{
+  position: relative;
+  max-width: 760px;
+  margin-inline: auto;
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 3rem);
+  border-radius: 24px;
+  background: var(--glass-bg-dark);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border-dark);
+  box-shadow:
+    0 30px 80px -30px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.28);
+}
+.ira-final h2{
+  font-family: "Lexend", sans-serif;
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  line-height: 1.2;
+  font-weight: 600;
+  margin: 0 0 1.2rem;
+  letter-spacing: -.02em;
+  color: #fff;
+}
+.ira-final p{
+  font-family: "Lexend", sans-serif;
+  font-size: 1.02rem;
+  font-weight: 300;
+  color: rgba(255,255,255,.9);
+  margin: 0 0 2.2rem;
+}
+.ira-final .ira-btn--light{ border-color: rgba(255,255,255,.75); }
+.ira-final .ira-btn--light:hover{ background: #fff; color: var(--green); }
+
+/* =========================================================
+   FOOTER — LOGO agrandi + légèrement transparent
+   ========================================================= */
+#site-footer .logo img,
+#site-footer .footer-logo img,
+#site-footer .ira-logo img,
+#site-footer img.logo,
+#site-footer img.footer-logo,
+#site-footer img[class*="logo" i],
+#site-footer img[src*="logo" i],
+#site-footer img[alt*="logo" i]{
+  height: 3cm;
+  width: auto;
+  max-height: none;
+  display: block;
+  opacity: .82;
+  transition: opacity .35s ease, filter .35s ease;
+  filter: drop-shadow(0 4px 18px rgba(0,0,0,.15));
+}
+#site-footer .logo img:hover,
+#site-footer .footer-logo img:hover,
+#site-footer .ira-logo img:hover,
+#site-footer img.logo:hover,
+#site-footer img.footer-logo:hover,
+#site-footer img[class*="logo" i]:hover,
+#site-footer img[src*="logo" i]:hover,
+#site-footer img[alt*="logo" i]:hover{
+  opacity: 1;
+}
+
+#site-footer svg.logo,
+#site-footer .logo svg,
+#site-footer .footer-logo svg{
+  height: 3cm;
+  width: auto;
+  opacity: .82;
+  transition: opacity .35s ease;
+}
+
+@media (max-width: 640px){
+  #site-footer .logo img,
+  #site-footer .footer-logo img,
+  #site-footer .ira-logo img,
+  #site-footer img.logo,
+  #site-footer img.footer-logo,
+  #site-footer img[class*="logo" i],
+  #site-footer img[src*="logo" i],
+  #site-footer img[alt*="logo" i],
+  #site-footer svg.logo,
+  #site-footer .logo svg,
+  #site-footer .footer-logo svg{
+    height: 2.2cm;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITÉ — mouvement réduit
+   ========================================================= */
+@media (prefers-reduced-motion: reduce){
+  .ira-slide,
+  .ira-slide__bg img,
+  .ira-slider__arrow,
+  .ira-slider__dot{ transition: none !important; }
+  .ira-slide.is-active .ira-slide__bg img{ animation: none; }
+  .ira-slide .ira-slide__title,
+  .ira-slide .ira-slide__desc,
+  .ira-slide .ira-slide__cta{ opacity: 1; transform: none; animation: none !important; }
+
+  .ira-why__card,
+  .ira-approach__card,
+  .ira-approach__grid::before,
+  .ira-approach__grid::after{
+    opacity: 1 !important;
+    transform: none !important;
+    translate: 0 0 !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div id="site-header"></div>
+
+<!-- =========================================================
+     HERO — SLIDER
+     ========================================================= -->
+<section class="ira-slider"
+         id="hero"
+         tabindex="0"
+         aria-roledescription="carrousel"
+         aria-label="Nos domaines d'intervention">
+
+  <div class="ira-slider__viewport">
+
+    <article class="ira-slide is-active" role="group" aria-roledescription="diapositive" aria-label="1 sur 4">
+      <div class="ira-slide__bg">
+        <img src="/images/slider/recherche.jpg" alt="Recherche appliquée et analyse socio-économique" width="1920" height="1080">
+      </div>
+      <div class="ira-slide__scrim" aria-hidden="true"></div>
+      <div class="ira-slide__icons" aria-hidden="true">
+        <svg class="ira-slide__icon" style="top:14%;left:6%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:38%;left:22%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:66%;left:8%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:26%;left:44%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:72%;left:48%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/>
+        </svg>
+      </div>
+      <div class="ira-wrap ira-slide__inner">
+        <div class="ira-slide__panel">
+          <h2 class="ira-slide__title">Comprendre une réalité sociale ou économique pour éclairer une décision.</h2>
+          <p class="ira-slide__desc">Recherche appliquée &amp; analyse socio-économique</p>
+          <a href="/expertises/" class="ira-slide__cta">
+            Découvrir
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <article class="ira-slide" role="group" aria-roledescription="diapositive" aria-label="2 sur 4">
+      <div class="ira-slide__bg">
+        <img src="/images/slider/suivi.jpg" alt="Évaluation d'impact et suivi-évaluation" loading="lazy" width="1920" height="1080">
+      </div>
+      <div class="ira-slide__scrim" aria-hidden="true"></div>
+      <div class="ira-slide__icons" aria-hidden="true">
+        <svg class="ira-slide__icon" style="top:14%;left:6%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:38%;left:22%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:66%;left:8%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:26%;left:44%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:72%;left:48%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/>
+        </svg>
+      </div>
+      <div class="ira-wrap ira-slide__inner">
+        <div class="ira-slide__panel">
+          <h2 class="ira-slide__title">Mesurer ce qui fonctionne réellement, et pourquoi.</h2>
+          <p class="ira-slide__desc">Évaluation d'impact &amp; suivi-évaluation</p>
+          <a href="/expertises/" class="ira-slide__cta">
+            Découvrir
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <article class="ira-slide" role="group" aria-roledescription="diapositive" aria-label="3 sur 4">
+      <div class="ira-slide__bg">
+        <img src="/images/slider/formation.jpg" alt="Formation et renforcement des capacités" loading="lazy" width="1920" height="1080">
+      </div>
+      <div class="ira-slide__scrim" aria-hidden="true"></div>
+      <div class="ira-slide__icons" aria-hidden="true">
+        <svg class="ira-slide__icon" style="top:14%;left:6%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:38%;left:22%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:66%;left:8%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:26%;left:44%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:72%;left:48%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/>
+        </svg>
+      </div>
+      <div class="ira-wrap ira-slide__inner">
+        <div class="ira-slide__panel">
+          <h2 class="ira-slide__title">Transférer nos méthodes aux équipes de nos partenaires.</h2>
+          <p class="ira-slide__desc">Formation &amp; renforcement des capacités</p>
+          <a href="/expertises/" class="ira-slide__cta">
+            Découvrir
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <article class="ira-slide" role="group" aria-roledescription="diapositive" aria-label="4 sur 4">
+      <div class="ira-slide__bg">
+        <img src="/images/cta.jpg" alt="Des preuves solides pour vos décisions" loading="lazy" width="1920" height="1080">
+      </div>
+      <div class="ira-slide__scrim" aria-hidden="true"></div>
+      <div class="ira-slide__icons" aria-hidden="true">
+        <svg class="ira-slide__icon" style="top:14%;left:6%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:38%;left:22%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:66%;left:8%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:26%;left:44%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        <svg class="ira-slide__icon" style="top:72%;left:48%;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/>
+        </svg>
+      </div>
+      <div class="ira-wrap ira-slide__inner">
+        <div class="ira-slide__panel">
+          <h2 class="ira-slide__title">Des preuves solides pour vos décisions qui comptent</h2>
+          <p class="ira-slide__desc">Une approche rigoureuse pour éclairer chaque choix stratégique.</p>
+          <a href="/expertises/" class="ira-slide__cta ira-slide__cta--wide">
+            Découvrir nos expertises
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="ira-slider__dots" role="tablist" aria-label="Choisir une diapositive">
+    <button class="ira-slider__dot is-active" type="button" role="tab" aria-selected="true"  aria-label="Diapositive 1"></button>
+    <button class="ira-slider__dot"           type="button" role="tab" aria-selected="false" aria-label="Diapositive 2"></button>
+    <button class="ira-slider__dot"           type="button" role="tab" aria-selected="false" aria-label="Diapositive 3"></button>
+    <button class="ira-slider__dot"           type="button" role="tab" aria-selected="false" aria-label="Diapositive 4"></button>
+  </div>
+
+  <div class="ira-slider__nav">
+    <button class="ira-slider__arrow" type="button" data-slider-prev aria-label="Diapositive précédente">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="ira-slider__arrow" type="button" data-slider-next aria-label="Diapositive suivante">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+
+</section>
+
+<!-- 2.1 — OUVERTURE -->
+<section class="ira-intro" id="a-propos">
+  <div class="ira-wrap">
+    <div class="ira-intro__inner">
+      <p class="ira-intro__text">
+        IRA accompagne <strong>institutions publiques, bailleurs de fonds, ONG et entreprises</strong>
+        dans la production et l'usage de preuves rigoureuses : recherche appliquée,
+        évaluation d'impact et conseil stratégique en République Démocratique du Congo
+        et en Afrique centrale.
+      </p>
+      <div class="ira-intro__cta">
+        <a href="/expertises/" class="ira-btn ira-btn--ghost">Découvrir nos expertises</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2.2 — POURQUOI IRA -->
+<section class="ira-why" id="pourquoi">
+  <div class="ira-wrap">
+    <h2 class="ira-title">Pourquoi travailler avec IRA</h2>
+    <p class="ira-lead">
+      Une équipe qui conjugue exigence méthodologique, connaissance du terrain
+      congolais et usage concret de la preuve pour la décision.
+    </p>
+
+    <div class="ira-why__grid">
+      <article class="ira-why__card">
+        <div class="ira-why__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z"/>
+            <polyline points="9 12 11.5 14.5 16 10"/>
+          </svg>
+        </div>
+        <h3>Rigueur scientifique</h3>
+        <p>Chaque étude et chaque évaluation est conçue et revue selon des standards méthodologiques exigeants, sous le contrôle d'un Comité Scientifique et d'Assurance Qualité indépendant.</p>
+      </article>
+
+      <article class="ira-why__card">
+        <div class="ira-why__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11z"/>
+            <circle cx="12" cy="10" r="2.5"/>
+          </svg>
+        </div>
+        <h3>Ancrage local, exigence internationale</h3>
+        <p>Une équipe qui connaît le contexte institutionnel congolais et régional, formée aux méthodes les plus reconnues d'évaluation d'impact et de recherche appliquée.</p>
+      </article>
+
+      <article class="ira-why__card">
+        <div class="ira-why__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="13 2 4 14 12 14 11 22 20 10 12 10 13 2"/>
+          </svg>
+        </div>
+        <h3>Une structure agile</h3>
+        <p>Des délais de mobilisation courts et une capacité à s'adapter à la taille et au budget de chaque mandat, sans compromis sur la qualité.</p>
+      </article>
+
+      <article class="ira-why__card">
+        <div class="ira-why__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3v18h18"/>
+            <polyline points="7 15 11 10 15 13 20 6"/>
+          </svg>
+        </div>
+        <h3>De la preuve à la décision</h3>
+        <p>Nos livrables sont conçus pour être utilisés, pas seulement lus : recommandations opérationnelles, restitutions adaptées à chaque partie prenante.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 2.3 — EXPERTISES -->
+<section class="ira-expertise" id="expertises">
+  <div class="ira-wrap">
+
+    <figure class="ira-expertise__figure">
+      <img src="/images/women-working.jpg"
+           alt="Équipe IRA au travail"
+           loading="lazy"
+           width="1920" height="1948">
+    </figure>
+
+    <div class="ira-expertise__head">
+      <div>
+        <h2 class="ira-title" style="margin-bottom:0;">Cinq savoir-faire,<br>une même exigence.</h2>
+      </div>
+      <a href="/expertises/" class="ira-btn ira-btn--ghost">
+        Voir la page Services
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+    <div class="ira-expertise__list">
+      <div class="ira-exp-item">
+        <span class="ira-exp-item__num">01</span>
+        <div class="ira-exp-item__body">
+          <h3>Recherche appliquée &amp; analyse socio-économique</h3>
+          <p>Comprendre une réalité sociale ou économique pour éclairer une décision.</p>
+        </div>
+      </div>
+
+      <div class="ira-exp-item">
+        <span class="ira-exp-item__num">02</span>
+        <div class="ira-exp-item__body">
+          <h3>Évaluation d'impact &amp; suivi-évaluation</h3>
+          <p>Mesurer ce qui fonctionne réellement, et pourquoi.</p>
+        </div>
+      </div>
+
+      <div class="ira-exp-item">
+        <span class="ira-exp-item__num">03</span>
+        <div class="ira-exp-item__body">
+          <h3>Conseil stratégique &amp; institutionnel</h3>
+          <p>Transformer les constats en choix stratégiques et en plans d'action.</p>
+        </div>
+      </div>
+
+      <div class="ira-exp-item">
+        <span class="ira-exp-item__num">04</span>
+        <div class="ira-exp-item__body">
+          <h3>Data, collecte &amp; outils numériques</h3>
+          <p>Des données fiables, de la collecte de terrain au tableau de bord.</p>
+        </div>
+      </div>
+
+      <div class="ira-exp-item">
+        <span class="ira-exp-item__num">05</span>
+        <div class="ira-exp-item__body">
+          <h3>Formation &amp; renforcement des capacités</h3>
+          <p>Transférer nos méthodes aux équipes de nos partenaires.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 2.4 — APPROCHE -->
+<section class="ira-approach" id="approche">
+  <div class="ira-wrap ira-approach__inner">
+    <h2 class="ira-title">Trois principes, une seule finalité</h2>
+    <p class="ira-lead">
+      Une manière de travailler constante, quel que soit le mandat,
+      pour que la preuve serve réellement la décision.
+    </p>
+
+    <div class="ira-approach__grid">
+      <article class="ira-approach__card">
+        <div class="ira-why__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </div>
+        <h3>Evidence</h3>
+        <p>La rigueur méthodologique avant toute conclusion.</p>
+      </article>
+
+      <article class="ira-approach__card">
+        <div class="ira-why__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="12" r="5"/>
+            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Impact</h3>
+        <p>Des recommandations conçues pour produire un changement mesurable.</p>
+      </article>
+
+      <article class="ira-approach__card">
+        <div class="ira-why__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18h6"/>
+            <path d="M10 21h4"/>
+            <path d="M12 3a6 6 0 0 0-4 10.5c.7.8 1 1.6 1 2.5h6c0-.9.3-1.7 1-2.5A6 6 0 0 0 12 3z"/>
+          </svg>
+        </div>
+        <h3>Better Decisions</h3>
+        <p>La donnée mise directement au service de vos décisions.</p>
+      </article>
+    </div>
+
+    <a href="/methodologie" class="ira-approach__link">
+      En savoir plus sur notre méthodologie
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<!-- 2.6 — APPEL FINAL -->
+<section class="ira-final" id="contact">
+  <div class="ira-wrap">
+    <div class="ira-final__inner">
+      <h2>Une décision à préparer, un programme à évaluer, une stratégie à éclairer&nbsp;?</h2>
+      <p>
+        Parlons de votre besoin — nous vous proposons, sans engagement,
+        un premier échange pour cadrer ensemble la meilleure approche.
+      </p>
+      <a href="/consultations" class="ira-btn ira-btn--light">
+        Prendre contact
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div id="site-footer"></div>
+
+<script>
+/* =========================================================
+   INJECTION HEADER + FOOTER
+   ========================================================= */
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("/components/header.html")
+    .then(function (r) { return r.ok ? r.text() : ""; })
+    .then(function (html) { if (html) document.getElementById("site-header").innerHTML = html; })
+    .catch(function () {});
+
+  fetch("/components/footer.html")
+    .then(function (r) { return r.ok ? r.text() : ""; })
+    .then(function (html) { if (html) document.getElementById("site-footer").innerHTML = html; })
+    .catch(function () {});
+});
+
+/* =========================================================
+   SLIDER HERO
+   ========================================================= */
+(function () {
+  var slider = document.querySelector(".ira-slider");
+  if (!slider) return;
+
+  var slides = Array.prototype.slice.call(slider.querySelectorAll(".ira-slide"));
+  var dots   = Array.prototype.slice.call(slider.querySelectorAll(".ira-slider__dot"));
+  var btnPrev = slider.querySelector("[data-slider-prev]");
+  var btnNext = slider.querySelector("[data-slider-next]");
+  if (slides.length < 2) return;
+
+  var DURATION = 7000;
+  var index = 0;
+  var timer = null;
+  var paused = false;
+
+  function render() {
+    slides.forEach(function (slide, i) {
+      slide.classList.toggle("is-active", i === index);
+    });
+    dots.forEach(function (dot, i) {
+      var active = i === index;
+      dot.classList.toggle("is-active", active);
+      dot.setAttribute("aria-selected", active ? "true" : "false");
+    });
+  }
+
+  function goTo(i, userAction) {
+    index = (i + slides.length) % slides.length;
+    render();
+    if (userAction) restart();
+  }
+
+  function next(userAction) { goTo(index + 1, userAction); }
+  function prev(userAction) { goTo(index - 1, userAction); }
+
+  function start() {
+    stop();
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    timer = window.setInterval(function () {
+      if (!paused) next(false);
+    }, DURATION);
+  }
+  function stop() {
+    if (timer) { window.clearInterval(timer); timer = null; }
+  }
+  function restart() {
+    stop();
+    start();
+  }
+
+  if (btnNext) btnNext.addEventListener("click", function () { next(true); });
+  if (btnPrev) btnPrev.addEventListener("click", function () { prev(true); });
+
+  dots.forEach(function (dot, i) {
+    dot.addEventListener("click", function () { goTo(i, true); });
+  });
+
+  slider.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight") { e.preventDefault(); next(true); }
+    if (e.key === "ArrowLeft")  { e.preventDefault(); prev(true); }
+  });
+
+  slider.addEventListener("mouseenter", function () { paused = true; });
+  slider.addEventListener("mouseleave", function () { paused = false; });
+  slider.addEventListener("focusin",    function () { paused = true; });
+  slider.addEventListener("focusout",   function () { paused = false; });
+
+  document.addEventListener("visibilitychange", function () {
+    paused = document.hidden;
+  });
+
+  var startX = 0, startY = 0, tracking = false;
+  slider.addEventListener("touchstart", function (e) {
+    var t = e.changedTouches[0];
+    startX = t.clientX; startY = t.clientY; tracking = true;
+  }, { passive: true });
+
+  slider.addEventListener("touchend", function (e) {
+    if (!tracking) return;
+    tracking = false;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - startX;
+    var dy = t.clientY - startY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0) next(true); else prev(true);
+    }
+  }, { passive: true });
+
+  render();
+  start();
+})();
+
+/* =========================================================
+   APPARITION AU SCROLL — Pourquoi + Trois principes
+   ========================================================= */
+(function () {
+  var targets = document.querySelectorAll(
+    ".ira-why__card, .ira-approach__card, .ira-approach__grid"
+  );
+  if (!targets.length) return;
+
+  if (!("IntersectionObserver" in window)) {
+    targets.forEach(function (el) { el.classList.add("is-visible"); });
+    return;
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        io.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: "0px 0px -60px 0px"
+  });
+
+  targets.forEach(function (el) { io.observe(el); });
+   document.addEventListener("click", e => {
+  const burger = e.target.closest("#burger");
+  if (burger) {
+    const menu = document.getElementById("mobileMenu");
+    const open = menu.classList.toggle("open");
+    burger.classList.toggle("active", open);
+    burger.setAttribute("aria-expanded", String(open));
+    return;
+  }
+  if (e.target.closest("#mobileMenu a")) {
+    document.getElementById("mobileMenu").classList.remove("open");
+    document.getElementById("burger").classList.remove("active");
+    document.getElementById("burger").setAttribute("aria-expanded", "false");
+  }
+});
+
+window.addEventListener("scroll", () => {
+  const h = document.getElementById("siteHeader");
+  if (h) h.classList.toggle("scrolled", window.scrollY > 10);
+});
+})();
+</script>
+
+</body>
+</html>
